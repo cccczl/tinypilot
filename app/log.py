@@ -51,8 +51,7 @@ class _SensitiveLogger(logging.getLoggerClass()):
             # The closing marker is needed, because a log message might contain
             # newlines. Otherwise, we wouldn’t be able to tell in hindsight how
             # many lines a log message consists of.
-            self._log(level, '[SENSITIVE] ' + str(message) + ' [/SENSITIVE]',
-                      args, **kws)
+            self._log(level, f'[SENSITIVE] {str(message)} [/SENSITIVE]', args, **kws)
 
     def debug_sensitive(self, message, *args, **kws):
         self.log_sensitive(logging.DEBUG, message, *args, **kws)

@@ -34,9 +34,7 @@ class SaveSettingsError(Error):
 class Settings:
 
     def __init__(self, data):
-        self._data = data
-        if not self._data:
-            self._data = {}
+        self._data = data or {}
 
     def as_dict(self):
         return self._data

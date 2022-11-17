@@ -70,9 +70,7 @@ def after_request(response):
 @app.errorhandler(Exception)
 def handle_error(e):
     logger.exception(e)
-    code = 500
-    if isinstance(e, exceptions.HTTPException):
-        code = e.code
+    code = e.code if isinstance(e, exceptions.HTTPException) else 500
     return json_response.error(e), code
 
 

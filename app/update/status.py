@@ -29,16 +29,14 @@ def get():
         return Status.IN_PROGRESS, None
 
     recent_result = update.result_store.read()
-    if not recent_result:
-        return Status.NOT_RUNNING, None
-
-    return Status.DONE, recent_result.error
+    return (
+        (Status.DONE, recent_result.error)
+        if recent_result
+        else (Status.NOT_RUNNING, None)
+    )
 
 
 def _is_update_process_running():
     lines = subprocess.check_output(
         ('ps', '-auxwe')).decode('utf-8').splitlines()
-    for line in lines:
-        if update.launcher.UPDATE_SCRIPT_PATH in line:
-            return True
-    return False
+    return any(update.launcher.UPDATE_SCRIPT_PATH in line for line in lines)

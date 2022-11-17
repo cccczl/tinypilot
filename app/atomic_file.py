@@ -47,7 +47,5 @@ def _remove_if_exists(file_path):
     try:
         os.remove(file_path)
     except OSError as e:
-        if e.errno == errno.ENOENT:  # No such file or directory
-            pass
-        else:
+        if e.errno != errno.ENOENT:
             logger.warning('Unexpected error while removing file: %s', str(e))

@@ -50,8 +50,7 @@ def get_new_logs(prev_logs, next_logs):
         next_logs: A string of the subsequently captured logs.
     """
     common_logs = os.path.commonprefix([prev_logs, next_logs])
-    new_logs = next_logs[len(common_logs):]
-    return new_logs
+    return next_logs[len(common_logs):]
 
 
 class Namespace(flask_socketio.Namespace):
@@ -76,8 +75,7 @@ class Namespace(flask_socketio.Namespace):
         self.is_streaming = True
         while self.is_streaming:
             logs = read()
-            new_logs = get_new_logs(self.prev_logs, logs)
-            if new_logs:
+            if new_logs := get_new_logs(self.prev_logs, logs):
                 # Send the update logs to all connected clients.
                 flask_socketio.emit('logs', new_logs, broadcast=True)
                 self.prev_logs = logs

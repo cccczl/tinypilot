@@ -56,9 +56,7 @@ def write(result, result_file):
 class _ResultEncoder(json.JSONEncoder):
 
     def default(self, o):
-        if isinstance(o, datetime.datetime):
-            return iso8601.to_string(o)
-        return o
+        return iso8601.to_string(o) if isinstance(o, datetime.datetime) else o
 
 
 class _ResultDecoder(json.JSONDecoder):

@@ -266,13 +266,14 @@ def all_licensing_get():
             ...
         ]
     """
-    response = []
-    for license_data in _LICENSE_METADATA:
-        response.append({
+    response = [
+        {
             'name': license_data.name,
-            'licenseUrl': '/licensing/%s/license' % license_data.name,
+            'licenseUrl': f'/licensing/{license_data.name}/license',
             'homepageUrl': license_data.homepage_url,
-        })
+        }
+        for license_data in _LICENSE_METADATA
+    ]
 
     return json_response.success(response)
 
@@ -305,10 +306,14 @@ def project_license_get(project):
 
 
 def _get_project_metadata(project_name):
-    for license_data in _LICENSE_METADATA:
-        if license_data.name == project_name:
-            return license_data
-    return None
+    return next(
+        (
+            license_data
+            for license_data in _LICENSE_METADATA
+            if license_data.name == project_name
+        ),
+        None,
+    )
 
 
 def _make_plaintext_response(response_body):

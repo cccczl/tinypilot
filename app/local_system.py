@@ -23,11 +23,7 @@ def restart():
 
 
 def _exec_shutdown(restart_after):
-    if restart_after:
-        param = '--reboot'
-    else:
-        param = '--poweroff'
-
+    param = '--reboot' if restart_after else '--poweroff'
     try:
         result = subprocess.run(['sudo', '/sbin/shutdown', param, 'now'],
                                 capture_output=True,
